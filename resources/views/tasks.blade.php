@@ -9,9 +9,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <choosing-component></choosing-component>
-                    <table-component></table-component>
-        <loading-component></loading-component>
+        <addtasks></addtasks>
+<!--                    <choosing-component></choosing-component>-->
+<!--                    <table-component></table-component>-->
+<!--        <loading-component></loading-component>-->
     </div>
 </div>
 @endsection
