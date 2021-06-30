@@ -1,16 +1,16 @@
 <template>
     <div>
 <!--        <h2>תזרים</h2>-->
-   <form @submit.prevent="addTasks" class="mb-3">
+   <form @submit.prevent="addTask" class="mb-3">
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
-                    <input  class="form-control" placeholder="name" v-model="tasks.title">
+                    <input  class="form-control" placeholder="name" v-model="task.title">
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <textarea rows="4" cols="50" type="textarea" class="form-control" placeholder="Enter text here..." v-model="tasks.body">
+                    <textarea rows="4" cols="50" type="textarea" class="form-control" placeholder="Enter text here..." v-model="task.body">
                             </textarea>
                 </div>
             </div>
@@ -35,7 +35,7 @@
     export default {
         data() {
             return {
-                tasks: {
+                task: {
                     id: '',
                     title:'',
                     body:''
@@ -43,14 +43,28 @@
             };
         },
         methods: {
-            addTasks() {
-                console.log(this.tasks);
+            addTask() {
+                fetch('api/AddTask', {
+                    method: 'post',
+                    body: JSON.stringify(this.task),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(res => res)
+                    .then(data => {
+                        console.log("adddadada");
+                        console.log(data);
+                        this.clearForm();
+                        // alert('task Added');
+                        // window.location.reload();
 
+                    })
+                    .catch(err => console.log(err));
             },
             clearForm() {
-                this.tasks.id = null;
-                this.tasks.title = '';
-                this.tasks.body = '';
+                this.task.id = null;
+                this.task.title = '';
+                this.task.body = '';
             },
         }
     };

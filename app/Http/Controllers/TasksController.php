@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TasksModel;
 
 class TasksController extends Controller
 {
@@ -36,7 +37,10 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tasks = new TasksModel();
+        $tasks->title = $request->input('title');
+        $tasks->body = $request->input('body');
+        $tasks->save();
     }
 
     /**
