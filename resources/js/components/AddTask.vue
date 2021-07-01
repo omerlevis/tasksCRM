@@ -1,44 +1,72 @@
 <template>
-    <div>
+    <div class="col-sm-3">
 <!--        <h2>תזרים</h2>-->
-   <form @submit.prevent="addTask" class="mb-3">
-        <div class="row">
-            <div class="col-3">
-                <div class="form-group">
-                    <input  class="form-control" placeholder="name" v-model="task.title">
-                </div>
+        <vs-alert color="#7d33ff">
+            <template #title>
+                Added task
+            </template>
+   <form @submit.prevent="addTask" class="py-5">
+        <div>
+            <div class="form-group">
+                    <vs-input
+                        color="rgb(59,222,200)"
+                        v-model="task.title"
+                        placeholder="Title" />
             </div>
-            <div class="col-3">
                 <div class="form-group">
                     <textarea rows="4" cols="50" type="textarea" class="form-control" placeholder="Enter text here..." v-model="task.body">
                             </textarea>
                 </div>
-            </div>
-            <div class="col-2">
 
-        </div>
+            <div class="py-3 form-group">
+            <vs-input
+                type="date"
+                v-model="task.destination"
+                label="Destination Date"
+            />
+            </div>
        <div class="row">
-            <div class="col-5">
-                <button type="submit" class="btn btn-light btn-block">שמור</button>
-            </div>
-            <div class="col-5">
-                <button @click="clearForm()" class="btn btn-danger btn-block">נקה טופס</button>
-            </div>
+
+                <vs-button
+                    danger
+                    border
+                    @click="clearForm"
+                >
+                    <i class="clear_all"></i> clear
+                </vs-button>
+               <vs-button
+                   type="submit"
+                   color="rgb(59,222,200)"
+                   gradient
+               >
+                   <i class="bx bxs-purchase-tag"></i> Save
+               </vs-button>
+
+
         </div>
         </div>
    </form>
-
+        </vs-alert>
 </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuesax from 'vuesax'
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+Vue.use(Vuesax, {
+    // options here
+})
+
     export default {
         data() {
             return {
                 task: {
                     id: '',
                     title:'',
-                    body:''
+                    body:'',
+                    status:0,
+                    destination:null
                 }
             };
         },
@@ -55,8 +83,8 @@
                         console.log("adddadada");
                         console.log(data);
                         this.clearForm();
-                        // alert('task Added');
-                        // window.location.reload();
+                        //alert('task Added');
+                        window.location.reload();
 
                     })
                     .catch(err => console.log(err));
@@ -65,6 +93,8 @@
                 this.task.id = null;
                 this.task.title = '';
                 this.task.body = '';
+                this.task.status = 0;
+                this.task.destination = null;
             },
         }
     };

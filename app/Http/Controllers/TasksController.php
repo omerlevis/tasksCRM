@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\TasksModel;
-
+use Carbon;
 class TasksController extends Controller
 {
     /**
@@ -18,7 +19,13 @@ class TasksController extends Controller
         return view('tasks');
 
     }
-
+    public function showAll()
+    {
+        // Get articles
+        $tasks_lists = TasksModel::orderBy('id', 'desc')
+            ->get();
+        return $tasks_lists;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +33,10 @@ class TasksController extends Controller
      */
     public function create()
     {
-        //
+
+        $tasks_lists = TasksModel::orderBy('id', 'desc')
+            ->get();
+        return $tasks_lists;
     }
 
     /**
@@ -37,10 +47,16 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        $tasks = new TasksModel();
+        $tasks = $request->isMethod('put') ? TasksModel::findOrFail($request->id) : new TasksModel;
         $tasks->title = $request->input('title');
         $tasks->body = $request->input('body');
-        $tasks->save();
+        $tasks->status = $request->input('status');
+        $tasks->destination = $request->input('destination');
+        if($tasks->save()) {
+            //return true;
+            return response()->json($tasks);
+        }
+
     }
 
     /**
@@ -85,6 +101,9 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $budget = TasksModel::findOrFail($id);
+        if($budget->delete()) {
+            return response()->json($budget);
+        }
     }
 }
