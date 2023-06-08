@@ -1,6 +1,5 @@
 <template>
     <div class="col-sm-3">
-<!--        <h2>תזרים</h2>-->
         <vs-alert color="#7d33ff">
             <template #title>
                 Added task
